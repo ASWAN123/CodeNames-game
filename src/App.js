@@ -6,9 +6,11 @@ import Connect from "./componenets/Join/Connect";
 import Game from "./componenets/game/Game";
 import { roomContext } from "./componenets/contextAPI";
 
-// firebase
-import {db} from './firebase-config'
-import { collection , getDocs ,addDoc } from "@firebase/firestore"
+//  import  my  db  from the  firebase  config  file  
+import { db } from './firebase-config' ;
+
+
+
 
 
 
@@ -16,41 +18,17 @@ function App() {
 
   let [rooms , setRooms] = useState([]) ;
   let  [buildingRoom , setBuildingRoom] = useState('')
-  const RoomsCollection = collection(db , 'Rooms')
 
-  // useEffect(()=> {
-  //   const  getRooms = async ()=> {
-  //     const  data  = await getDocs(RoomsCollection) ;
-  //     data.docs.map((doc)=> {
-  //       setRooms( [...rooms , {id:doc.id , ...doc.data() }])
-  //     })
-  //   }
-
-  //   getRooms() ;
-  // } , [])
-
-
-  // update db
-  useEffect(() => {
-    console.log('test ')
-
-  } , [rooms] )
-
-
-
-
-
-
-
-
+  
 
 
 
   
   return (
 
-    <div className="App bg-[#071715] text-white ">
-      <roomContext.Provider value={{ rooms , setRooms , RoomsCollection , db }}>
+    <div className="App bg-blue-900 text-white ">
+
+      <roomContext.Provider value={{ db }}>
         <Routes>
           <Route path="/" element={<CreateRoom />}></Route>
           <Route path="/Create" element={<Create />}></Route>
@@ -64,3 +42,6 @@ function App() {
 }
 
 export default App;
+
+
+
