@@ -1,12 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from "react-router-dom";
-import { HiUserGroup } from 'react-icons/hi';
+
 import { roomContext } from '../contextAPI';
+import TeamCard from './TeamCard';
 
 function Game() {
   let { db } = useContext(roomContext) ;
-  const location = useLocation();
-  let roomID = location.state.roomID;
+  const location = useLocation() ;
+
+  let parseStuff = location.pathname.replace('/game/','').split('-') ;
+  let roomID = parseStuff.shift()
+  let playerID = parseStuff.join("-") ;
+
+
+
+  
 
   let [data , setData] = useState({})
 
@@ -14,7 +22,6 @@ function Game() {
     const unsubscribe = db.collection('Rooms').onSnapshot((snapshot) => {
       const data = snapshot.docs.map((doc) => {
         if(doc.id == roomID){
-          // console.log({ id:doc.id , ...doc.data()})
           setData({ id:doc.id , ...doc.data()})
         }
       });
@@ -25,78 +32,45 @@ function Game() {
       unsubscribe();
     };
   }, []);
+
+
+  let Team1 = [] ;
+  let Team2 = [] ;
+  data?.players?.map((player)=> {
+    if(player.team === "Team 1"){
+      Team1.push(player)
+    }else{
+      Team2.push(player)
+    }
+  }) ;
+
   
+  let player = data?.players?.find((player)=> player.id == playerID)
+  console.log(player)
 
 
   return (
-    <div className='h-screen flex  justify-between  '>
-      <div className=' flex flex-col gap-4 p-1' >
-        <div className='bg-green-300 text-black w-[100px] rounded-lg m-2 text-center  p-1  '>
-          <p>Online : {data?.players?.length} </p>
-        </div>
-        <div className=' p-2 card w-[270px] h-[170px] flex flex-col gap-4  rounded-lg mt-6  bg-gradient-to-r from-[#ec4899] to-[#db2777]  '>
-        <HiUserGroup  size={40} color="white" className='mx-auto' />
-        <div className='flex flex-col px-4 gap-1'>
-            <p className='border-b-2 '>Operatives</p>
-            <div className='flex gap-2 '>
-              {
-                data?.players?.map((player)=> {
-                  if(player.team === "Team 1" && player.spymaster === false){
-                    return <span key={player.id} className='bg-gray-200 text-blue-500 rounded-lg px-1  '>{player.name}</span>
-                  }
-                })
-              }
-
-            </div>
-            <p className='border-b-2'>Spymaster</p>
-            <div className='flex gap-2 '>
-            {
-                data?.players?.map((player)=> {
-                  if(player.team === "Team 1" && player.spymaster === true){
-                    return <span key={player.id} className='bg-gray-200 text-blue-500 rounded-lg px-1  '>{player.name}</span>
-                  }
-                })
-              }
-            </div>  
-        </div>
-
-        </div>
-      </div>
-      
-      <div className='  w-full'>b</div>
-      <div className='  flex flex-col gap-4 p-1'>
-        <div className='bg-green-300 text-black w-[150px] rounded-lg m-2 text-center  p-1 ml-auto '>
-            <p>Reset the game</p>
-          </div>
-        <div className='p-2 card w-[270px] h-[170px] flex flex-col gap-4  rounded-lg mt-6 ml-auto bg-gradient-to-r from-[#4f46e5]  to-[#6366f1]  ' >
-          <HiUserGroup  size={45} color="white" className='mx-auto' />
-          <div className='flex flex-col px-4 gap-1'>
-            <p className='border-b-2'>Operatives</p>
-            <div className='flex gap-2 '>
-            {
-                data?.players?.map((player)=> {
-                  if(player.team === "Team 2" && player.spymaster === false){
-                    return <span key={player.id} className='bg-gray-200 text-blue-500 rounded-lg px-1  '>{player.name}</span>
-                  }
-                })
-              }
-
-            </div>
-            <p className='border-b-2'>Spymaster</p>
-            <div className='flex gap-2 '>
-            {
-                data?.players?.map((player)=> {
-                  if(player.team === "Team 2" && player.spymaster === true){
-                    return <span key={player.id} className='bg-gray-200 text-blue-500 rounded-lg px-1  '>{player.name}</span>
-                  }
-                })
-              }
-              
-            </div>  
-        </div>
+    <div className='h-screen flex  justify-between pt-12 '>
+      <TeamCard key="Team1" data = {data} Team = {Team1} teamName="Team1"/>
+      <div className='  w-full'>
+        <div className='grid grid-cols-5 gap-2 p-4 pt-7 '>
           
+          {
+            data?.cards?.map((card)=> {
+              // console.log(card.color)
+               return <div key={card.word} className={ `  hover:shadow-lg  cursor-pointer hover:scale-[95%] flex flex-col items-center justify-center rounded-lg h-[80px] w-[130px] border-4  ${ player.spymaster == false ? 'bg-gray-400 border-4  border-b-blue-200 border-t-red-200' : card.color} `}>
+                 
+                 
+                 <p className='bg-white text-black py-1 px-2 rounded-lg font-bold  shadow-lg '> {card.word} </p>
+                 
+                 
+                 </div>
+            })
+          }
+
         </div>
       </div>
+      <TeamCard key="Team2" data = {data} Team = {Team2} teamName="Team2"/>
 
     </div>
   )

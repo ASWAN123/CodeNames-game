@@ -12,15 +12,23 @@ import { db } from './firebase-config' ;
 
 
 
-
-
 function App() {
 
-  let [rooms , setRooms] = useState([]) ;
-  let  [buildingRoom , setBuildingRoom] = useState('')
+  let [data , setData] = useState([])
 
-  
+  useEffect(() => {
+    const unsubscribe = db.collection('Rooms').onSnapshot((snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setData(data);
+    });
 
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
 
   
@@ -28,12 +36,12 @@ function App() {
 
     <div className="App bg-blue-900 text-white ">
 
-      <roomContext.Provider value={{ db }}>
+      <roomContext.Provider value={{ data , setData , db }} >
         <Routes>
           <Route path="/" element={<CreateRoom />}></Route>
           <Route path="/Create" element={<Create />}></Route>
-          <Route path="/Connect" element={<Connect />}></Route>
-          <Route path="/game/:ID" element={<Game />}></Route>
+          {/* <Route path="/Connect" element={<Connect />}></Route>
+          <Route path="/game/:ID" element={<Game />}></Route> */}
         </Routes>
       </roomContext.Provider>
 

@@ -34,7 +34,8 @@ function Connect() {
         checker.get().then((doc)=> {
             if(doc.exists){
                 let data = {...doc.data()}
-                if(data.players.filter((x)=> x.spymaster === true && x.team == player.team ).length == 1){
+                //checking  if  the  there  is  already  one  or two  of  spymaster  in the  room 
+                if(data.players.filter((x)=> x.spymaster === true && x.team == player.team ).length == 1 || data.players.filter((x)=> x.spymaster === true ).length == 2 ){
                     setSpymasterExists(true)
                 }else{
                     setSpymasterExists(false)
@@ -86,12 +87,13 @@ function Connect() {
 
       
     })
-    navigate(`/game/${x}`, {
-      state: {
-        roomID: x ,
-      }
-    });
-      }
+
+
+
+    navigate(`/game/${x+"-"+player.id } `);
+    
+
+}
 
 
 
@@ -100,8 +102,8 @@ function Connect() {
     return (
         <div className='text-white h-screen flex items-center justify-center'>
             <div className='w-full h-[80%]  bg-[] flex items-center  justify-center gap-12 '>
-                <div className='w-[350px] flex flex-col items-center gap-10 p-6  rounded-md  bg-[#164e63] relative'>
-                    <div className='flex gap-3 items-center w-full '><Link rel="stylesheet" to="/" ><BiArrowBack size={25} className=' cursor-pointer ' /></Link> <p className='text-[20px] '>Connect to an existing room</p></div>
+                <div className='w-[350px] flex flex-col items-center gap-10 p-6  rounded-md   relative'>
+                    <div className='flex gap-3 items-center w-full '><Link rel="stylesheet" to="/" ><BiArrowBack size={25} className='bg-blue-400 rounded-[50%] p-1 cursor-pointer ' /></Link> <p className='text-[20px] '>Connect to an existing room</p></div>
                     <div className=' flex flex-col gap-6 items-center'>
                         {/* <label htmlFor="">Add room ID : </label> */}
                         <input value={RoomID} onChange={(e)=> {checkValidationRoomID(e)}} placeholder='Add you room ID' id='' className=' bg-transparent min-w-[70%] mt-2 text-gray-400 border-b-2 px-6 border-b-[#22d3ee] outline-none ' />

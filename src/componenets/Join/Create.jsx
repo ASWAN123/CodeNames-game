@@ -5,15 +5,23 @@ import uuid from "react-uuid";
 import { BiArrowBack } from 'react-icons/bi';
 import { useNavigate} from "react-router-dom";
 import { roomContext } from "../contextAPI";
+import { RandomReveal } from 'react-random-reveal'
+import useLocalStorage from "use-local-storage";
+
 
 //firebase 
 import firebase from 'firebase/compat/app';
+import mywords from "../../randomWords";
 
 
 function Create() {
+  let {data ,  setData} = useContext(roomContext) ;
+  
+  
+
   let [teamStati , setTeamStati] = useState({'team1':0 , 'team2':0})
   let [spymasterExists , setSpymasterExists] = useState(false)
-  let {rooms  , setRooms , RoomsCollection , db } = useContext(roomContext) ;
+  let { db } = useContext(roomContext) ;
   let [RoomID, setRoomID] = useState("b*9***86-****-48**-87*2-");
   let [Ready, setReady] = useState(false);
   let [copynotifs , setCopyNotifs] = useState('Click to copy')
@@ -24,7 +32,6 @@ function Create() {
     'name':'',
     'team':'',
     'spymaster':false
-  
   })
 
 
@@ -34,7 +41,7 @@ function Create() {
         checker.get().then((doc)=> {
             if(doc.exists){
                 let data = {...doc.data()}
-                if(data.players.filter((x)=> x.spymaster === true && x.team == player.team ).length == 1){
+                if(data.players.filter((x)=> x.spymaster === true && x.team == player.team ).length == 1 || data.players.filter((x)=> x.spymaster === true ).length == 2){
                     setSpymasterExists(true)
                 }else{
                   setSpymasterExists(false)
@@ -43,7 +50,7 @@ function Create() {
         })
 
     }catch{
-        console.log('done')
+        console.log('issue')
     }
 
 
@@ -53,7 +60,8 @@ function Create() {
 
   // create  document  with the  generated  id
   const CreateDoc  = async () => {
-    let  newDoc  = await db.collection('Rooms').add({'players':[] })
+
+    let  newDoc  = await db.collection('Rooms').add({'players':[] , 'cards':mywords })
     setRoomID(newDoc.id) ;
     setReady(true) ;
     console.log(newDoc.id)
@@ -78,25 +86,28 @@ function Create() {
         console.log('limit has been exucted')
       }
 
-      
     })
-    navigate(`/game/${x}`, {
-      state: {
-        roomID: x ,
-      }
-    });
+
+
+    navigate(`/game/${x+"-"+player.id}`);
   }
 
   return (
     <div className="text-white h-screen flex items-center justify-center ">
       <div className="w-full h-[80%]  bg-[] flex items-center  justify-center gap-12 ">
-        <div className="w-[350px] flex flex-col items-center gap-10 p-6  rounded-md  bg-[#164e63] relative">
-        <Link rel="stylesheet" to="/" ><BiArrowBack size={25} className=' cursor-pointer absolute left-5 top-7' /></Link>
-          {/* <div className="text-[20px]">Create room</div> */}
+        <div className="w-[350px] flex flex-col items-center gap-10 p-6  rounded-md   relative">
+        <Link rel="stylesheet" to="/" ><div className="text-[20px]">Create room</div><BiArrowBack size={25} className=' bg-blue-400 rounded-[50%] p-1 cursor-pointer absolute left-5 top-7' /></Link>
+          
           <div className= 'flex flex-col gap-6 items-center mt-12' >
             
             <p onClick={CopyCode} className={`cursor-pointer min-w-[70%] mt-2 ${Ready ? 'text-[#67e8f9] ' : 'text-gray-400' }  border-b-2 px-6 pb-2 border-b-[#22d3ee] `} >
-              {RoomID}
+              { Ready ?  <RandomReveal
+              isPlaying
+              duration={1.7}
+              revealDuration={0.5}
+              characters= {RoomID} 
+              />  : RoomID 
+              }
             </p>
             
             
