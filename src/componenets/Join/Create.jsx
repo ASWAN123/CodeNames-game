@@ -6,7 +6,7 @@ import { BiArrowBack } from 'react-icons/bi';
 import { useNavigate} from "react-router-dom";
 import { roomContext } from "../contextAPI";
 import { RandomReveal } from 'react-random-reveal'
-import useLocalStorage from "use-local-storage";
+
 
 
 //firebase 
@@ -15,13 +15,12 @@ import mywords from "../../randomWords";
 
 
 function Create() {
-  let {data ,  setData} = useContext(roomContext) ;
+  let {data ,  setData , db} = useContext(roomContext) ;
   
   
 
   let [teamStati , setTeamStati] = useState({'team1':0 , 'team2':0})
   let [spymasterExists , setSpymasterExists] = useState(false)
-  let { db } = useContext(roomContext) ;
   let [RoomID, setRoomID] = useState("b*9***86-****-48**-87*2-");
   let [Ready, setReady] = useState(false);
   let [copynotifs , setCopyNotifs] = useState('Click to copy')
@@ -31,37 +30,28 @@ function Create() {
     'id':uuid(),
     'name':'',
     'team':'',
-    'spymaster':false
+    'spymaster':false ,
+    'admin':true 
   })
 
 
   useEffect(()=> {
-    try{
-        let checker = db.collection('Rooms').doc(RoomID)
-        checker.get().then((doc)=> {
-            if(doc.exists){
-                let data = {...doc.data()}
-                if(data.players.filter((x)=> x.spymaster === true && x.team == player.team ).length == 1 || data.players.filter((x)=> x.spymaster === true ).length == 2){
-                    setSpymasterExists(true)
-                }else{
-                  setSpymasterExists(false)
-                }
-            }
-        })
 
-    }catch{
-        console.log('issue')
+      let room = data.find((x)=> x.id == RoomID)
+      if (room){
+        if(room?.players?.filter((x)=> x.spymaster === true && x.team == player.team ).length == 1 || room?.players?.filter((x)=> x.spymaster === true ).length == 2){
+            setSpymasterExists(true)
+        }else{
+          setSpymasterExists(false)
+        }
+
     }
-
-
-
     } , [player])
 
 
   // create  document  with the  generated  id
   const CreateDoc  = async () => {
-
-    let  newDoc  = await db.collection('Rooms').add({'players':[] , 'cards':mywords })
+    let  newDoc  = await db.collection('Rooms').add({'players':[] , 'cards':mywords , 'started':false })
     setRoomID(newDoc.id) ;
     setReady(true) ;
     console.log(newDoc.id)
@@ -74,23 +64,23 @@ function Create() {
     setCopyNotifs('Copied!')
   }
 
-  const RedirectToRoom = async (x) => {
-    // add the  player 
-    // checking if the  team alreayd full
-    let checker = await db.collection('Rooms').doc(RoomID)
-    checker.get().then((doc)=> {
-      let data = {...doc.data()}
-      if(data.players.length === 0  || data.players.map((x)=> x.team == player.team ).length < 8 ){
+  const RedirectToRoom = (x) => {
+
+
+    let room = data.find((x)=> x.id == RoomID)
+    if (room){
+      if(room?.players?.length === 0  || room?.players?.map((x)=> x.team == player.team ).length < 8){
         db.collection('Rooms').doc(RoomID).update({players:firebase.firestore.FieldValue.arrayUnion(player)}) ;
       }else{
         console.log('limit has been exucted')
       }
-
-    })
+    }
 
 
     navigate(`/game/${x+"-"+player.id}`);
   }
+
+
 
   return (
     <div className="text-white h-screen flex items-center justify-center ">

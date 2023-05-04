@@ -8,11 +8,10 @@ import { useNavigate} from "react-router-dom";
 import firebase from 'firebase/compat/app';//firebase
 
 function Connect() {
- 
+
+    let {data ,  setData , db} = useContext(roomContext) ;
     let [teamStati , setTeamStati] = useState({'team1':0 , 'team2':0})
     let [spymasterExists , setSpymasterExists] = useState(false)
-
-
     let [ player , setPlayer ] = useState({
         'id':uuid() ,
         'name':'',
@@ -20,80 +19,56 @@ function Connect() {
         'spymaster':false
       })
 
-    let { db } = useContext(roomContext) ;
+
     let [ validatTOKEN  , setValidatTOKEN] = useState(true)
     let [message ,  setMessage] = useState() // Not Valid
     let [ RoomID  , setRoomID] = useState('') ;
 
     const navigate = useNavigate() ;
 
-      // hide  or  show  the  spuymaster  if the  user  picks  the  thiere  for  the  team  1  or  2  
+
     useEffect(()=> {
-    try{
-        let checker = db.collection('Rooms').doc(RoomID)
-        checker.get().then((doc)=> {
-            if(doc.exists){
-                let data = {...doc.data()}
-                //checking  if  the  there  is  already  one  or two  of  spymaster  in the  room 
-                if(data.players.filter((x)=> x.spymaster === true && x.team == player.team ).length == 1 || data.players.filter((x)=> x.spymaster === true ).length == 2 ){
-                    setSpymasterExists(true)
-                }else{
-                    setSpymasterExists(false)
-                }
-            }
-        })
-
-    }catch{
-        console.log('done')
-    }
-
-
+        let room = data.find((x)=> x.id == RoomID)
+        if (room){
+        if(room?.players?.filter((x)=> x.spymaster === true && x.team == player.team ).length == 1 || room?.players?.filter((x)=> x.spymaster === true ).length == 2){
+            setSpymasterExists(true)
+        }else{
+            setSpymasterExists(false)
+        }
+        }
 
     } , [player])
 
 
 
-    const checkValidationRoomID =async (e) => {
+    const checkValidationRoomID =(e) => {
         setRoomID(e.target.value)
 
-        let checker = await db.collection('Rooms').doc(e.target.value)
-        checker.get().then((doc)=> {
-            if(doc.exists){
-                setMessage("Valid")
-                let data = {...doc.data()}
-                setTeamStati({team1:data.players.filter((x)=> x.team === 'Team 1' ).length , team2:data.players.filter((x)=> x.team === 'Team 2' ).length})
-                // if(data.players.filter((x)=> x.spymaster === true && x.team == player.team ).length == 1){
-                //     setSpymasterExists(true)
-                // }
-                
-
-            }else{
-                setMessage('Room id is not valid')
+        let room = data.find((x)=> x.id == e.target.value)
+        if(room){
+            setMessage("Valid")
+            setTeamStati({team1:room?.players?.filter((x)=> x.team === 'Team 1' ).length , team2:room?.players?.filter((x)=> x.team === 'Team 2' ).length} )
+            if(room.players.filter((x)=> x.spymaster === true && x.team == player.team ).length == 1){
+                setSpymasterExists(true)
             }
-        })
-        
+        }else{
+            setSpymasterExists(false)
+        }
     }
 
 
-    const RedirectToRoom = async (x) => {
-    // add the  player 
-    // checking if the  team alreayd full
-    let checker = await db.collection('Rooms').doc(RoomID)
-    checker.get().then((doc)=> {
-      let data = {...doc.data()}
-      if(data.players.length === 0  || data.players.filter((x)=> x.team == player.team ).length <= 8 ){
-        db.collection('Rooms').doc(RoomID).update({players:firebase.firestore.FieldValue.arrayUnion(player)}) ;
+    const RedirectToRoom =(x) => {
+        let room = data.find((x)=> x.id == RoomID)
+        if (room){
+          if(room?.players?.length === 0  || room?.players?.map((x)=> x.team == player.team ).length < 8){
+            db.collection('Rooms').doc(RoomID).update({players:firebase.firestore.FieldValue.arrayUnion(player)}) ;
+          }else{
+            console.log('limit has been exucted')
+          }
+        }
+
+        navigate(`/game/${x+"-"+player.id}`);
       }
-
-      
-    })
-
-
-
-    navigate(`/game/${x+"-"+player.id } `);
-    
-
-}
 
 
 

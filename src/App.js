@@ -40,8 +40,8 @@ function App() {
         <Routes>
           <Route path="/" element={<CreateRoom />}></Route>
           <Route path="/Create" element={<Create />}></Route>
-          {/* <Route path="/Connect" element={<Connect />}></Route>
-          <Route path="/game/:ID" element={<Game />}></Route> */}
+          <Route path="/Connect" element={<Connect />}></Route>
+          <Route path="/game/:ID" element={<Game />}></Route>
         </Routes>
       </roomContext.Provider>
 
