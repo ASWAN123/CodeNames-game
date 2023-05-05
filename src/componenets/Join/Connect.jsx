@@ -16,7 +16,8 @@ function Connect() {
         'id':uuid() ,
         'name':'',
         'team':'',
-        'spymaster':false
+        'spymaster':false,
+        'admin':false
       })
 
 
@@ -58,16 +59,24 @@ function Connect() {
 
 
     const RedirectToRoom =(x) => {
-        let room = data.find((x)=> x.id == RoomID)
-        if (room){
-          if(room?.players?.length === 0  || room?.players?.map((x)=> x.team == player.team ).length < 8){
-            db.collection('Rooms').doc(RoomID).update({players:firebase.firestore.FieldValue.arrayUnion(player)}) ;
-          }else{
-            console.log('limit has been exucted')
-          }
+        let checkerifexsit  = data?.find((doc)=> doc.id == RoomID).players.find((x)=> x.name == player.name )
+        console.log(checkerifexsit)
+
+        if(checkerifexsit){
+            return navigate(`/game/${x+"-"+checkerifexsit.id}`);
+
+        }else{
+            let room = data.find((x)=> x.id == RoomID)
+            if (room){
+              if(room?.players?.length === 0  || room?.players?.map((x)=> x.team == player.team ).length < 8){
+                db.collection('Rooms').doc(RoomID).update({players:firebase.firestore.FieldValue.arrayUnion(player)}) ;
+              }else{
+                console.log('limit has been exucted')
+              }
+            }
+            navigate(`/game/${x+"-"+player.id}`);
         }
 
-        navigate(`/game/${x+"-"+player.id}`);
       }
 
 
