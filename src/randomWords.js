@@ -7,14 +7,14 @@ let Team1Cards  = randomWords({ exactly: 8 , minLength:6 , maxLength: 10 }).map(
 });
 
 let Team2Card  = randomWords({ exactly: 8 , minLength:6 , maxLength: 10 }).map((word)=> {
-  return {'word':word ,'flip':false , team:"Team 1" , color:'bg-[#6366f1]' , hover:[] }
+  return {'word':word ,'flip':false , team:"Team 2" , color:'bg-[#6366f1]' , hover:[] }
 });
 
 let whiteCard = randomWords({ exactly: 8 , minLength:6 , maxLength: 10 }).map((word)=> {
-  return {'word':word ,'flip':false , team:"both" , color:'bg-[#cbd5e1]' , hover:[] }
+  return {'word':word ,'flip':false , team:"f" , color:'bg-[#fbbf24]' , hover:[] }
 }); 
 
-let blackCard  = {'word':words() ,'flip':false , team:"Team 1" , color:'bg-[#1e293b]' , hover:[] };
+let blackCard  = {'word':words() ,'flip':false , team:"x" , color:'bg-[#1e293b]' , hover:[] };
 
 
 let mywords = [...Team1Cards , ...Team2Card , ...whiteCard , blackCard].map((word ,  index)=> {

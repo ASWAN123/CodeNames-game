@@ -2,53 +2,19 @@ import React, { useContext, useState } from "react" ;
 import { roomContext } from "../contextAPI" ;
 import { useEffect } from "react" ;
 
-function TeamCard({ roomID, teamName , countor ,setCountor }) {
+function TeamCard({ roomID , teamName }) {
 
   let { data, db } = useContext(roomContext) ;
   let room = data.find((doc) => doc.id == roomID) ;
 
-
-
-
-
-
-
-
-
-  const countdown = () => {
-    let setIntervalID = setInterval(()=> {
-      if(countor <= 0){
-        clearInterval(setIntervalID) ;
-      }else{
-        setCountor(countor --)
-      }
-    } , 1000 )
-  }
-
-
-
-
-  useEffect(()=> {
-    if(countor == 10){
-      countdown()
-    }
-
-  } , [countor])
-
-
-
-
-
-
-
-
-
+ 
 
 
 
 
 
   return (
+
     <div className=" flex flex-col gap-4 p-1 ">
       {teamName == "Team 1" && (
         <div className="bg-green-300 text-black w-[100px] rounded-lg  text-center  p-1 absolute top-2 left-2 ">
@@ -65,10 +31,11 @@ function TeamCard({ roomID, teamName , countor ,setCountor }) {
         }  `}
       >
         <div className="flex gap-2 text-[25px] items-center px-2 ">
-          <p>{room?.points} Words left</p>
+          <p>{room?.cards.filter((card)=> card.flip == false && card.team == teamName).length} Words left</p>
+
           {room?.guessing && room.turn == teamName && (
             <span className="bg-green-400 p-1 rounded-lg  text-[14px] ">
-              {countor} seconds
+               seconds
             </span>
           )}
         </div>
@@ -95,6 +62,7 @@ function TeamCard({ roomID, teamName , countor ,setCountor }) {
                 }
               })}
           </div>
+          
           <p className="border-b-2">Spymaster</p>
           <div className="flex gap-2 ">
             {room?.players

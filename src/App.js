@@ -34,7 +34,7 @@ function App() {
   
   return (
 
-    <div className="App bg-blue-900 text-white ">
+    <div className="App bg-gradient-to-br  from-blue-900 to-blue-700 text-white ">
 
       <roomContext.Provider value={{ data , setData , db }} >
         <Routes>

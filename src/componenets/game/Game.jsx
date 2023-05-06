@@ -17,41 +17,14 @@ function Game() {
   let player = data.find((doc)=> doc.id == roomID )?.players?.find((player)=> player.id == playerID)
 
 
-  let [countor, setCountor] = useState(0);
-
-
-  // settimeout ()
-
-  const countDown =  () => {
-    let intervalID = setTimeout(() => {
-      let dostuff =  db.collection("Rooms").doc(roomID).update({turn: room?.turn == "Team 1" ? "Team 2" : "Team 1",guessing: false,countDown: false,})
-      console.log("turn  ended for " ,  room?.turn);
-      if(countor == 0){
-        clearTimeout(intervalID)
-      }
-      
-    }, 20000 ) ;
-  };
-
-
-
-
-  useEffect(() => {
-    if (data.find((doc)=> doc.id  == roomID)?.countDown == true ) {
-      countDown() ;
-      setCountor(data.find((doc)=> doc.id  == roomID)?.timer) ;
-      console.log("turn start " ,  room?.turn);
-    }
-  }, [data]);
-  
 
 
 
   return (
-    <div className='h-screen flex  justify-between pt-12 gap-2 '>
-      <TeamCard key="Team1" roomID={roomID} teamName="Team 1" setCountor ={setCountor} countor={countor}/>
+    <div className={`h-screen flex  justify-between pt-12 gap-2 ${room?.turn == 'Team 1' ?' bg-gradient-to-br  from-pink-900 to-pink-700' : 'bg-gradient-to-br  from-blue-900 to-blue-700' }`}>
+      <TeamCard key="Team1" roomID={roomID} player={player} teamName="Team 1" />
       <Cards key="cards" roomID={roomID} player={player} />
-      <TeamCard key="Team2"  roomID={roomID} teamName="Team 2" setCountor ={setCountor} countor={countor} />
+      <TeamCard key="Team2"  roomID={roomID} player={player} teamName="Team 2"/>
     </div>
   )
 }
