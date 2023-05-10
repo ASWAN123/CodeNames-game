@@ -58,7 +58,7 @@ function Cards() {
             {room?.started == true && room?.guessing == false &&
                 player?.spymaster == true &&
                 room?.turn == player.team && (
-                    <div className="  rounded-lg text-center p-1 max-w-[80%] justify-center   absolute -bottom-12  ">
+                    <div className="  rounded-lg text-center p-1 max-w-[80%] justify-center   absolute -bottom-12 lg:bottom-10  ">
                         <div className="flex  justify-center  gap-2 ">
                             <input
                                 value={guess}

@@ -45,7 +45,7 @@ function Game() {
 
 
   return (
-    <div className={`h-screen flex md:flex-col lg:flex-row relative  gap-2 ${room?.turn == 'Team 2' ?' bg-gradient-to-br  from-red-900 to-red-700' : 'bg-gradient-to-br  from-blue-900 to-blue-700' }`}>
+    <div className={`min-h-screen max-w-screen flex md:flex-col lg:flex-row relative  gap-2 ${room?.turn == 'Team 2' ?' bg-gradient-to-br  from-red-900 to-red-700' : 'bg-gradient-to-br  from-blue-900 to-blue-700' }`}>
       <div className='flex  lg:flex-col gap-2 pl-2 justify-center lg:justify-normal p-1   '>
         
         <div className="  text-center  p-1 absolute bottom-2 left-4 flex flex-col gap-3 ">
