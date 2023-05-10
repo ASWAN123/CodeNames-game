@@ -1,13 +1,28 @@
 import React, { useContext, useState } from "react" ;
 import { roomContext } from "../contextAPI" ;
 import { useEffect } from "react" ;
+import { useLocation } from "react-router-dom";
+import Timer from "./Timer";
 
-function TeamCard({ roomID , teamName }) {
+
+
+function TeamCard({  teamName }) {
+  const location = useLocation() ;
+  let parseStuff = location.pathname.replace('/game/','').split('-') ;
+  let roomID = parseStuff.shift()
+  let playerID = parseStuff.join("-") ;
+
 
   let { data, db } = useContext(roomContext) ;
   let room = data.find((doc) => doc.id == roomID) ;
+  let player  = room?.players.find((p) => p.id  == playerID )
 
- 
+
+
+
+
+
+
 
 
 
@@ -15,34 +30,27 @@ function TeamCard({ roomID , teamName }) {
 
   return (
 
-    <div className=" flex flex-col gap-4 p-1 ">
-      {teamName == "Team 1" && (
-        <div className="bg-green-300 text-black w-[100px] rounded-lg  text-center  p-1 absolute top-2 left-2 ">
-          <p>
-            Online : {data.find((doc) => doc.id == roomID)?.players?.length}{" "}
-          </p>
-        </div>
-      )}
+    <div className=" flex flex-col gap-2 ">
       <div
-        className={` p-2 card w-[270px]  flex flex-col gap-4  rounded-lg mt-6  bg-gradient-to-r ${
-          teamName == "Team 2"
-            ? "from-[#6366f1] to-[#818cf8]"
-            : "from-[#ec4899] to-[#db2777]"
+        className={` p-2 card w-[240px]  flex flex-col gap-2  rounded-lg mt-6  bg-gradient-to-r ${
+          teamName == "Team 1"
+            ? "from-blue-600 to-blue-500"
+            : "from-red-600 to-red-500"
         }  `}
       >
-        <div className="flex gap-2 text-[25px] items-center px-2 ">
+        <div className="flex gap-2 text-[20px] items-center px-1 ">
           <p>{room?.cards.filter((card)=> card.flip == false && card.team == teamName).length} Words left</p>
 
-          {room?.guessing && room.turn == teamName && (
-            <span className="bg-green-400 p-1 rounded-lg  text-[14px] ">
-               seconds
+          <span className="  rounded-lg bg-white text-black ml-auto px-1 text-[16px]">
+               {room?.turn == teamName ?  <Timer seconds = {room?.timer} /> : '00:00' }
             </span>
-          )}
+
+
         </div>
 
-        <div className="flex flex-col px-4 gap-1">
+        <div className="flex flex-col px-2 gap-1">
           <p className="border-b-2 ">Operatives</p>
-          <div className="flex gap-2 ">
+          <div className="flex gap-2  flex-wrap ">
             {room?.players
               .filter((player) => player.team == teamName)
               .map((player) => {
@@ -50,12 +58,7 @@ function TeamCard({ roomID , teamName }) {
                   return (
                     <span
                       key={player.id}
-                      className={`bg-white ${
-                        teamName == "Team 2"
-                          ? " text-[#818cf8]"
-                          : " text-[#db2777]"
-                      }   rounded-lg px-1  `}
-                    >
+                      className={`bg-white ${teamName == "Team 1"? " text-[#818cf8]": " text-[#db2777]" }   rounded-lg px-1  `}>
                       {player.name}
                     </span>
                   );
@@ -64,7 +67,7 @@ function TeamCard({ roomID , teamName }) {
           </div>
           
           <p className="border-b-2">Spymaster</p>
-          <div className="flex gap-2 ">
+          <div className="flex gap-2 flex-wrap ">
             {room?.players
               .filter((player) => player.team == teamName)
               .map((player) => {
@@ -73,7 +76,7 @@ function TeamCard({ roomID , teamName }) {
                     <span
                       key={player.id}
                       className={`bg-white   ${
-                        teamName == "Team 2"
+                        teamName == "Team 1"
                           ? " text-[#818cf8]"
                           : " text-[#db2777]"
                       } rounded-lg px-1  `}

@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState  , useContext } from "react";
-import CreateRoom from "./componenets/Join/CreateRoom";
 import { Route, Routes } from "react-router-dom";
-import Create from "./componenets/Join/Create";
-import Connect from "./componenets/Join/Connect";
 import Game from "./componenets/game/Game";
 import { roomContext } from "./componenets/contextAPI";
 
 //  import  my  db  from the  firebase  config  file  
 import { db } from './firebase-config' ;
-
+import Home from "./componenets/Join/Home";
+import Lobby from "./componenets/Join/Lobby";
+import Gameover from "./componenets/winorlose/Gameover";
 
 
 
@@ -34,14 +33,14 @@ function App() {
   
   return (
 
-    <div className="App bg-gradient-to-br  from-blue-900 to-blue-700 text-white ">
+    <div className="App border mx-auto max-w-7xl bg-[#082f49] text-white ">
 
       <roomContext.Provider value={{ data , setData , db }} >
         <Routes>
-          <Route path="/" element={<CreateRoom />}></Route>
-          <Route path="/Create" element={<Create />}></Route>
-          <Route path="/Connect" element={<Connect />}></Route>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/lobby/:roomID" element={<Lobby />}></Route>
           <Route path="/game/:ID" element={<Game />}></Route>
+          <Route path="/gameover/:ID" element={<Gameover />}></Route>
         </Routes>
       </roomContext.Provider>
 
