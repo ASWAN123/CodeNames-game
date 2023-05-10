@@ -24,7 +24,6 @@ function Home() {
     const CopyCode = ()=> {
         navigator.clipboard.writeText(roomID)
         setCopypast('Copied! Share with your friends')
-        console.log('ok')
       }
 
     const createDoc = async () => {
