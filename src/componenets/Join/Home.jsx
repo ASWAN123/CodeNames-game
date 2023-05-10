@@ -5,6 +5,8 @@ import uuid from "react-uuid" ;
 import mywords from "../../randomWords" ;
 import firebase from 'firebase/compat/app' ;
 import Loading from '../loading/Loading';
+import { MdOutlineArrowBackIosNew } from 'react-icons/md';
+
 
 function Home() {
     let {data  , setData  ,  db }  = useContext(roomContext)
@@ -26,6 +28,7 @@ function Home() {
       }
 
     const createDoc = async () => {
+        if(roomID.length == 20 && player.name.trim() == '' && create == true) return 
         if(player.name.trim().length > 0 && roomID.length == 20 ){
             setLoading(true)
             await db.collection('Rooms').doc(roomID).update({players:firebase.firestore.FieldValue.arrayUnion({...player ,  admin:true })})
@@ -76,6 +79,11 @@ function Home() {
 
 
 
+    const  goBack  = () => {
+        setCreate(false)
+        setJoin(false)
+        setRoomID('')
+    }
 
 
 
@@ -118,8 +126,16 @@ function Home() {
                 
                 <button onClick={ join ? joinUser : ()=> {setJoin(true)} } className={` w-[200px] h-[50px] text-[16px] border-2 text-center ${ ( copypast == 'Valid room ID'  && !!player.name.length ) ? " border-orange-500" : "border-white"}`}>{ ( copypast == 'Valid room ID'  && !!player.name.length )  ? "Access lobby" :"Join Room"}
                 </button> 
-                
+
                 }
+
+                {  create &&  <div onClick={goBack} className=' cursor-pointer flex justify-center items-center ' >
+                    <MdOutlineArrowBackIosNew size={35} className='p-1 rounded-[50%] bg-gray-200 text-black text-center' />
+                </div> }
+
+                { join &&  <div onClick={goBack} className=' cursor-pointer flex justify-center items-center ' >
+                    <MdOutlineArrowBackIosNew size={35} className='p-1 rounded-[50%] bg-gray-200 text-black text-center' />
+                </div> }
             </div>
 
         </div>

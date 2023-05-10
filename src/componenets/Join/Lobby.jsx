@@ -69,7 +69,7 @@ function Lobby() {
 
 
     return (
-        <div className='min-h-screen pt-6 px-6   gap-6 flex flex-col w-[80%] mx-auto '>
+        <div className=' min-h-screen  max-w-7xl pt-6 px-6   gap-6 flex flex-col w-full mx-auto '>
             {
                 loading && <Loading />
             }

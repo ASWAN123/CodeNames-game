@@ -45,21 +45,20 @@ function Game() {
 
 
   return (
-    <div className={`min-h-screen max-w-screen flex md:flex-col lg:flex-row relative  gap-2 ${room?.turn == 'Team 2' ?' bg-gradient-to-br  from-red-900 to-red-700' : 'bg-gradient-to-br  from-blue-900 to-blue-700' }`}>
-      <div className='flex  lg:flex-col gap-2 pl-2 justify-center lg:justify-normal p-1   '>
-        
-        <div className="  text-center  p-1 absolute bottom-2 left-4 flex flex-col gap-3 ">
-        <p className='bg-green-300 text-black w-[100px] rounded-lg'>
-            Players : {room?.players.length}
-          </p>
-          <span>Welcome : {player?.name } </span>
+    <div className={`mx-auto min-h-screen  flex md:flex-col lg:flex-row relative  gap-2 ${room?.turn == 'Team 2' ?' bg-gradient-to-br  from-red-900 to-red-700' : 'bg-gradient-to-br  from-blue-900 to-blue-700' }`}>
+      <div className='flex  lg:flex-col gap-2 pl-2 justify-center lg:justify-normal p-1 '>
 
-        </div>
 
-        { room?.turn == player?.team && room?.guessing == true && <button className='absolute font-bold text-black top-4 w-[230px] py-1  bg-orange-200 text-[18px] rounded-lg  ' onClick={handleEndTurn} >End turn</button>}
       
         <TeamCard key="Team1"   teamName="Team 1" />
         <TeamCard key="Team2"   teamName="Team 2" />
+
+        <div className="  text-center flex flex-col gap-4  p-1  left-4 text-[12px] ">
+          <p className='bg-green-300 text-black px-4  mt-5 text-center rounded-lg text-[18px] '>
+              Players Online : {room?.players.length}
+          </p>
+          { room?.turn == player?.team && room?.guessing == true && <button className='font-bold text-black  mt-2  py-1  bg-orange-200 text-[18px] rounded-lg  ' onClick={handleEndTurn} >End turn</button>}
+        </div>
       </div>
       <Cards key="cards"  />
       

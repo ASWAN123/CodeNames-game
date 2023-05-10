@@ -24,6 +24,7 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
     "react-timer-hook": "^3.0.5",
+    "react-typewriter-hook": "^1.0.1",
     "react-uuid": "^2.0.0",
     "sort-by": "^1.2.0",
     "use-local-storage": "^3.0.0",

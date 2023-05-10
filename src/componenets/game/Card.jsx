@@ -19,22 +19,24 @@ function Card({ card }) {
     if (room?.turn !== player.team) return ;
     if (card.flip == true) return ;
     
+    
     if(room?.forbiddencard == true  && card.team  == 'x') {
         db.collection("Rooms").doc(roomID).update({ gameover:true  ,  turn: ""  ,  guessing:false , flip:'done' ,  winner:room?.turn == "Team 1" ?  "Team 2":  "Team 1" });
         return 
     }
 
     let newcards = room?.cards.map((x) => {
-        if (x.word == card.word  && x.team  == card.team) {
+        if (x.word == card.word ) {
           return { ...x, flip: true } ;
         }
         return x;
 
         });
-
+    
+        console.log(newcards.filter((x)=> x.flip == true).length ,  'cards count  for ' ,  player?.team)
     if( newcards.filter((x)=> x.team == room?.turn && x.flip == true ).length === 8 ){
         console.log('because  it  8' , newcards.filter((x)=> x.flip == true && card.team == room?.turn ).length  )
-        db.collection("Rooms").doc(roomID).update({ turn: ""  , cards: newcards  ,  flip:flipcount-1  ,  guessing:false , flip:'done' ,  winner:room?.turn , gameover:true });
+        db.collection("Rooms").doc(roomID).update({ turn: ""  , cards: newcards  ,  flip:0  ,  guessing:false , flip:'done' ,  winner:room?.turn , gameover:true });
         return
     }
 
@@ -73,6 +75,7 @@ function Card({ card }) {
   return (
     <div className="relative">
         {player?.spymaster == false &&
+          card.flip == false &&
           player?.team == room?.turn &&
           room?.guessing == true && (
             <GiClick
@@ -80,8 +83,8 @@ function Card({ card }) {
               onClick={() => {
                 flipTtheCard(card);
               }}
-              className="absolute cursor-pointer border-white top-[-10px] right-[-10px] bg-white rounded-2xl p-1 "
-              color="black"
+              className="absolute cursor-pointer top-[-10px] right-[-5px]  bg-yellow-300 rounded-2xl p-1 rotate-45 "
+              color="white"
             />
           )}
 
@@ -90,9 +93,9 @@ function Card({ card }) {
           hoverfunction(card);
         }}
         key={card.word}
-        className={` hover:shadow-lg  cursor-pointer  flex flex-col items-center justify-center rounded-lg min-h-[90px] min-w-[150px] border-4  ${
+        className={` hover:shadow-lg  cursor-pointer  flex flex-col items-center justify-center rounded-lg min-h-[100px] min-w-[170px]   shadow-inner  border-4 border-gray-100 hover:scale-[0.9] ${
           player?.spymaster == false && card.flip == false
-            ? "bg-gray-400 border-4  border-b-blue-200 border-t-red-200"
+            ? " bg-orange-300"
             : card.color
         } `}
       >
@@ -104,9 +107,9 @@ function Card({ card }) {
           })}
         </div>
 
-        <p className="bg-white text-black py-1 px-2 rounded-lg font-bold  shadow-lg ">
+        <p className=" text-black bg-gray-50 py-1 px-2 rounded-lg font-bold   mt-auto mb-1  ">
           {" "}
-          {card.word}{" "}
+          {card.word}
         </p>
         <div className="absolute  bg-transparent  cursor-pointer ] h-[90px] w-[130px] "></div>
       </div>

@@ -33,8 +33,7 @@ function App() {
   
   return (
 
-    <div className="App border mx-auto max-w-7xl bg-[#082f49] text-white ">
-
+    <div className="App bg-[#082f49] text-white  mx-auto ">
       <roomContext.Provider value={{ data , setData , db }} >
         <Routes>
           <Route path="/" element={<Home />}></Route>
@@ -43,7 +42,6 @@ function App() {
           <Route path="/gameover/:ID" element={<Gameover />}></Route>
         </Routes>
       </roomContext.Provider>
-
     </div>
   );
 }

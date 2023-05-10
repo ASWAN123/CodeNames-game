@@ -6,15 +6,15 @@ const mywords = (x) => {
 
 
   let Team1Cards  = randomWords({ exactly: 8 , minLength:6 , maxLength: 10 }).map((word)=> {
-    return {'word':word ,'flip':false , team:"Team 2" , color:'bg-[#347bdc]' , hover:[] }
+    return {'word':word ,'flip':false , team:"Team 1" , color:'bg-[#347bdc]' , hover:[] }
   });
 
   let Team2Card  = randomWords({ exactly: 8 , minLength:6 , maxLength: 10 }).map((word)=> {
-    return {'word':word ,'flip':false , team:"Team 1" , color:'bg-[#e81111]' , hover:[] }
+    return {'word':word ,'flip':false , team:"Team 2" , color:'bg-[#e81111]' , hover:[] }
   });
 
   let whiteCard = randomWords({ exactly: 8 , minLength:6 , maxLength: 10 }).map((word)=> {
-    return {'word':word ,'flip':false , team:"f" , color:'bg-[#e7fc99]' , hover:[] }
+    return {'word':word ,'flip':false , team:"f" , color:'bg-[#e4c3bd]' , hover:[] }
   }); 
 
 
@@ -24,7 +24,7 @@ const mywords = (x) => {
   if(x == -1){
     blackCard = {'word':words() ,'flip':false , team:"x" , color:'bg-[#1e293b]' , hover:[] } ;
   }else{
-    blackCard = {'word':words() ,'flip':false , team:"f" , color:'bg-[#e7fc99]' , hover:[] } ;
+    blackCard = {'word':words() ,'flip':false , team:"f" , color:'bg-[#e4c3bd]' , hover:[] } ;
   }
   
 
