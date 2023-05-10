@@ -71,7 +71,7 @@ function Cards() {
         )}
 
       {/* cards */}
-      <div className="grid grid-cols-5 gap-2 p-1 min-w-[60%] max-w-[80%] my-auto  mx-auto mt-[8%] ">
+      <div className="grid grid-cols-5 gap-4 p-1 min-w-[60%] max-w-[80%] my-auto  mx-auto mt-[8%] ">
         {room?.cards?.map((card) => {
           return <Card key={card.index + card.word} card={card} />;
         })}

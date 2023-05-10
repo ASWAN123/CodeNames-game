@@ -33,9 +33,7 @@ function Card({ card }) {
 
         });
     
-        console.log(newcards.filter((x)=> x.flip == true).length ,  'cards count  for ' ,  player?.team)
     if( newcards.filter((x)=> x.team == room?.turn && x.flip == true ).length === 8 ){
-        console.log('because  it  8' , newcards.filter((x)=> x.flip == true && card.team == room?.turn ).length  )
         db.collection("Rooms").doc(roomID).update({ turn: ""  , cards: newcards  ,  flip:0  ,  guessing:false , flip:'done' ,  winner:room?.turn , gameover:true });
         return
     }

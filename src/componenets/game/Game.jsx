@@ -27,7 +27,6 @@ function Game() {
 
   useEffect(()=> {
     if( room?.flip == 0 && room?.guessing == true){
-        console.log('turn end')
         let updatedcards = room.cards.map((x) => {
             return {...x ,  hover:[]} ;
         });
