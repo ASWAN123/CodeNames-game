@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/CodeNames-game/static/css/main.a31d849c.css",
-    "main.js": "/CodeNames-game/static/js/main.3df7f698.js",
+    "main.css": "/CodeNames-game/static/css/main.c6ec830d.css",
+    "main.js": "/CodeNames-game/static/js/main.bd37c180.js",
     "index.html": "/CodeNames-game/index.html",
-    "main.a31d849c.css.map": "/CodeNames-game/static/css/main.a31d849c.css.map",
-    "main.3df7f698.js.map": "/CodeNames-game/static/js/main.3df7f698.js.map"
+    "main.c6ec830d.css.map": "/CodeNames-game/static/css/main.c6ec830d.css.map",
+    "main.bd37c180.js.map": "/CodeNames-game/static/js/main.bd37c180.js.map"
   },
   "entrypoints": [
-    "static/css/main.a31d849c.css",
-    "static/js/main.3df7f698.js"
+    "static/css/main.c6ec830d.css",
+    "static/js/main.bd37c180.js"
   ]
 }
