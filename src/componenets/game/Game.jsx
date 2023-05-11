@@ -44,8 +44,10 @@ function Game() {
 
 
   return (
-    <div className={`mx-auto min-h-screen  flex md:flex-col lg:flex-row relative  gap-2 ${room?.turn == 'Team 2' ?' bg-gradient-to-br  from-red-900 to-red-700' : 'bg-gradient-to-br  from-blue-900 to-blue-700' }`}>
-      <div className='flex  lg:flex-col gap-2 pl-2 justify-center lg:justify-normal p-1 '>
+    <div className={`mx-auto min-h-screen  md:flex md:flex-col lg:flex-row relative  gap-2 ${room?.turn == 'Team 2' ?' bg-gradient-to-br  from-red-900 to-red-700' : 'bg-gradient-to-br  from-blue-900 to-blue-700' }`}>
+      <p className='md:hidden'>this game is not a  mobile  version i will work  on mobile  version later</p>
+      <div className='hidden md:flex lg:flex-col gap-2 pl-2 justify-center lg:justify-normal p-1 '>
+        
 
 
       

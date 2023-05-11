@@ -74,7 +74,7 @@ function Lobby() {
             {
                 loading && <Loading />
             }
-                <div className=' flex gap-12  justify-between '>
+                <div className=' flex  justify-between  sm:flex-col lg:flex-row sm:gap-2 lg:gap-12'>
 
                     <div className='flex gap-4   p-2 items-center  justify-center text-[18px] font-normal ' >
                         <span>Welcome : </span>
@@ -98,7 +98,7 @@ function Lobby() {
 
                 </div>
 
-                <div className=' flex gap-8 justify-between'>
+                <div className=' flex gap-8 justify-between sm:flex-col-reverse sm:items-center lg:flex-row lg:items-start '>
                 
                     {/* table */}
                     <div className=''>
@@ -111,7 +111,7 @@ function Lobby() {
                                 }
                             </div>
 
-                        <div className=' flex flex-col gap-0 bg-gradient-to-b from-blue-300/50 to-[#082f49]/50'>
+                        <div className=' flex flex-col gap-0 bg-gradient-to-b from-blue-300/50 to-[#082f49]/50 '>
                             <p className='p-2 pb-2 border-b-2 border-b-blue-500'>blue team</p>
                             {
                                 blueTeam?.map((x , index)=> {
@@ -121,7 +121,7 @@ function Lobby() {
                         </div>
 
 
-                        <div className=' flex flex-col gap-0 bg-gradient-to-b from-red-300/50 to-[#082f49]/50'>
+                        <div className=' flex flex-col gap-0 bg-gradient-to-b from-red-300/50 to-[#082f49]/50 '>
                             <p className='p-2 pb-2 border-b-2 border-b-red-500'>red team</p>
                             {
                                 redTeam?.map((x , index)=> {
