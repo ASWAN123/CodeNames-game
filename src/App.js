@@ -45,7 +45,7 @@ function App() {
             <Route exact  path="/lobby/:roomID" element={<Lobby />}></Route>
             <Route exact  path="/game/:ID" element={<Game />}></Route>
             <Route exact  path="/gameover/:ID" element={<Gameover />}></Route>
-            <Route exact  path="*" element={<Errorpage />} />
+            <Route exact  path="/*" element={<Errorpage />} />
           
         </Routes>
       </roomContext.Provider>
