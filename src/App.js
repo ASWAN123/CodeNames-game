@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState  , useContext } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes , Navigate , Switch } from "react-router-dom";
+
+
 import Game from "./componenets/game/Game";
 import { roomContext } from "./componenets/contextAPI";
 
@@ -8,12 +10,14 @@ import { db } from './firebase-config' ;
 import Home from "./componenets/Join/Home";
 import Lobby from "./componenets/Join/Lobby";
 import Gameover from "./componenets/winorlose/Gameover";
+import Errorpage from "./componenets/Error/Errorpage";
 
 
 
 function App() {
 
   let [data , setData] = useState([])
+  let na
 
   useEffect(() => {
     const unsubscribe = db.collection('Rooms').onSnapshot((snapshot) => {
@@ -36,10 +40,13 @@ function App() {
     <div className="App bg-[#082f49] text-white  mx-auto ">
       <roomContext.Provider value={{ data , setData , db }} >
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/lobby/:roomID" element={<Lobby />}></Route>
-          <Route path="/game/:ID" element={<Game />}></Route>
-          <Route path="/gameover/:ID" element={<Gameover />}></Route>
+          
+            <Route exact path="/home" element={<Home />}></Route>
+            <Route exact  path="/lobby/:roomID" element={<Lobby />}></Route>
+            <Route exact  path="/game/:ID" element={<Game />}></Route>
+            <Route exact  path="/gameover/:ID" element={<Gameover />}></Route>
+            <Route exact  path="*" element={<Errorpage />} />
+          
         </Routes>
       </roomContext.Provider>
     </div>

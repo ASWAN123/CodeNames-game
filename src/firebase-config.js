@@ -17,5 +17,5 @@ firebase.initializeApp(firebaseConfig);
 // confirm  the  connection  
 export const db = firebase.firestore();
 
-// export default db ;
+
 

@@ -52,12 +52,13 @@ function Lobby() {
 
 
     const startgame = async() => {
-        // check  if  there is  more than  2  players  in each  team  and  one  spy and  one  operative
-        setLoading(true)
         let team1 = room?.players.filter((p) => p.team == "Team 1" ) ;
         let team2 = room?.players.filter((p) => p.team == "Team 2" ) ;
         if ( team1.find((p)=> p.spymaster == true) == undefined || team1.find((p)=> p.spymaster == false) == undefined  ) return 
         if ( team2.find((p)=> p.spymaster == true) == undefined || team2.find((p)=> p.spymaster == false) == undefined  ) return 
+        // check  if  there is  more than  2  players  in each  team  and  one  spy and  one  operative
+        setLoading(true)
+
         if(room?.timer == ''){
            await db.collection('Rooms').doc(roomID).update({timer:'60'})
         }
