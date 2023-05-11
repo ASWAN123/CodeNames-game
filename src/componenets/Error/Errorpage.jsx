@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 function Errorpage() {
     let  navigate  = useNavigate()
     const  redirectTohome  = () => {
-        navigate('/home')
+        navigate('')
     }
   return (
     <div className='w-full min-h-screen border flex items-center justify-center flex-col gap-6'><p className='text-3xl'>Error page</p>

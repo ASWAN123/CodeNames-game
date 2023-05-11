@@ -41,7 +41,7 @@ function App() {
       <roomContext.Provider value={{ data , setData , db }} >
         <Routes>
           
-            <Route exact path="/home" element={<Home />}></Route>
+            <Route exact path="" element={<Home />}></Route>
             <Route exact  path="/lobby/:roomID" element={<Lobby />}></Route>
             <Route exact  path="/game/:ID" element={<Game />}></Route>
             <Route exact  path="/gameover/:ID" element={<Gameover />}></Route>
