@@ -1,6 +1,6 @@
 {
   "name": "codenames",
-  "homepage": "https://aswan123.github.io/CodeNames-game/",
+  "homepage": "https://aswan123.github.io/CodeNames-game/home",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
