@@ -17,7 +17,7 @@ import Errorpage from "./componenets/Error/Errorpage";
 function App() {
 
   let [data , setData] = useState([])
-  let na
+  
 
   useEffect(() => {
     const unsubscribe = db.collection('Rooms').onSnapshot((snapshot) => {
